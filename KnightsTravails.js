@@ -17,6 +17,27 @@ const KnightsTravails = (() => {
         return board;
     }
 
+    const getValidMoves = (position, board) => {
+        moves = [
+            [+2, +1], [+2, -1], [-2, +1], [-2, -1],
+            [+1, +2], [+1, -2], [-1, +2], [-1, -2]
+        ];
+        validMoves = [];
+        moves.forEach(move => {
+            let newX = position[0] + move[0];
+            let newY = position[1] + move[1];
+            if((newX < 8 && newY < 8) && (board[newX][newY] !== 1)) validMoves.push(move);
+        });
+        return validMoves;
+    }
 
-    return {  };
+    const knightMoves = (start, end) => {
+        let board = this.createBoard();
+        let queue = [];
+        queue.push(new Node(start));
+        board[start[0]][start[1]] = 1;
+
+    }
+
+    return { knightMoves };
 })();
