@@ -18,22 +18,22 @@ const KnightsTravails = (() => {
     }
 
     const getValidMoves = (position, board) => {
-        moves = [
+        const moves = [
             [+2, +1], [+2, -1], [-2, +1], [-2, -1],
             [+1, +2], [+1, -2], [-1, +2], [-1, -2]
         ];
-        validMoves = [];
+        let validMoves = [];
         moves.forEach(move => {
             let newX = position[0] + move[0];
             let newY = position[1] + move[1];
-            if((newX < 8 && newY < 8) && (board[newX][newY] !== 1)) validMoves.push(move);
+            if ((newX >= 0 && newY >= 0) && (newX < 8 && newY < 8) && (board[newX][newY] !== 1)) validMoves.push(move);
         });
         return validMoves;
     }
 
     const showPath = (node) => {
-        path = [];
-        while(node) {
+        let path = [];
+        while (node) {
             path.unshift(node.position);
             node = node.parent;
         }
@@ -46,12 +46,20 @@ const KnightsTravails = (() => {
         let currentNode;
         queue.push(new Node(start));
         board[start[0]][start[1]] = 1;
-        while(queue.length !== 0) {
+        while (queue.length !== 0) {
             currentNode = queue.shift();
-            if((currentNode.position[0] === end[0]) && currentNode.position[1] === end[1]) return showPath(currentNode);
+            if ((currentNode.position[0] === end[0]) && (currentNode.position[1] === end[1])) return showPath(currentNode);
+            //console.log(getValidMoves(currentNode.position, board))
+            getValidMoves(currentNode.position, board).forEach(move => {
+                let newX = currentNode.position[0] + move[0];
+                let newY = currentNode.position[1] + move[1];
+                //console.log([newX, newY])
+                queue.push(new Node([newX, newY], currentNode));
+                board[newX][newY] = 1;
+            });
         }
     }
 
     return { knightMoves };
 })();
-console.log(KnightsTravails.knightMoves([0,0],[0,0]))
+console.log(KnightsTravails.knightMoves([0, 0], [3, 3]))
