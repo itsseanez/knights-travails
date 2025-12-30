@@ -31,13 +31,27 @@ const KnightsTravails = (() => {
         return validMoves;
     }
 
+    const showPath = (node) => {
+        path = [];
+        while(node) {
+            path.unshift(node.position);
+            node = node.parent;
+        }
+        return path;
+    }
+
     const knightMoves = (start, end) => {
-        let board = this.createBoard();
+        let board = createBoard();
         let queue = [];
+        let currentNode;
         queue.push(new Node(start));
         board[start[0]][start[1]] = 1;
-
+        while(queue.length !== 0) {
+            currentNode = queue.shift();
+            if((currentNode.position[0] === end[0]) && currentNode.position[1] === end[1]) return showPath(currentNode);
+        }
     }
 
     return { knightMoves };
 })();
+console.log(KnightsTravails.knightMoves([0,0],[0,0]))
